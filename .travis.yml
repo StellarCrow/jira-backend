@@ -1,0 +1,12 @@
+language: node_js
+node_js:
+- '12'
+install: npm install
+branches:
+  only:
+  - master
+deploy:
+  provider: heroku
+  app: jira-back
+  api_key:
+    secure: coqGCo2GyapXiySAGGEUaEpXnRIqH9wdnoeSCjvLlfOj49IF1gm4rSUOQr+bep7Bq6E9PtzPj0FiQ6HUFieL4zl4gGLFeFQRH/tSJKo6EeiraxYetq9XoWdDc1Bjpjl/lj8a0vgGcyrHlPaXAoxEWRhfHR4uUet3Jpw6S/4f+qnNm0ovOsez9azMlJASWkM6FvFj0V/Nqu7s0QnBqjqxZKRbJ8YA+kUeybk3GPlO3Bpl8EGMMln3h+sD23WRCGcxtzTnY0lHld6Jxcpf0FwKwueZG39ciU48H7IOEtjDtGp1JzRvgQTdhT+9jAVZF9C071wvFtDVToFpyOqN+08hoSPy6z+EORUivNsDygMEP6yqIFVYQcudTqmzBjMxeXhvvBtf1gIE2/3+eGY5jJMdkAtAvVRFJY090g6lCT9Z+XFRRUVPEJnYfsHVO7Av/OF/coNKnPqoIRoVzOv/TVm9Ifqa+n3viCeJ0LBEbRD3xuOVx0RNqlKDmfYWYRhdYyFpofcTnWSfaI7OAqlZp63GJ4fdINtsQzWnNotHnWpikDLO2EdR11LEzjoa0Mvln8P/gUPVm1qQHA2EY+JfrTJJYFNgSeko7T3rYGYOlQNMx5TjtOL5Z/KyyJwuXKf1nEzL4r2OujwkmEXa7lAANbKF2F8FUPYVuYXzntDDTNkx/dM=

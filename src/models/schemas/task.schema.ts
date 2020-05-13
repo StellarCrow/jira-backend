@@ -1,4 +1,20 @@
 import mongoose from 'mongoose';
+import { UserDocument } from './user.schema';
+
+export type TaskDocument = mongoose.Document & {
+    title: string,
+    description: string,
+    reporter: UserDocument,
+    assignee: UserDocument,
+    created: Date,
+    updated: Date,
+    deadline: Date,
+    type: string,
+    priority: string,
+    status: string,
+    resolution: string
+    labels: string[]
+};
 
 const taskSchema = new mongoose.Schema({
     title: {
@@ -45,4 +61,4 @@ const taskSchema = new mongoose.Schema({
     labels: [String]
 });
 
-export const Task = mongoose.model("Task", taskSchema);
+export const Task = mongoose.model<TaskDocument>("Task", taskSchema);

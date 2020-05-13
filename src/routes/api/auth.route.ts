@@ -1,10 +1,11 @@
 import express, { Request, Response } from 'express';
 import UserService from '../../services/user.service';
+import { UserInterface } from '../../interfaces/user.interface';
 
 const router = express.Router();
 
-router.get('/login', async (req: Request, res: Response) => {
-    const userInfo = {
+router.post('/login', async (req: Request, res: Response) => {
+    const userInfo: Pick<UserInterface, 'email' | 'password'> = {
         email: req.body.email,
         password: req.body.password,
     };
@@ -18,6 +19,25 @@ router.get('/login', async (req: Request, res: Response) => {
         }
         return res.status(400).json({ error: err.message });
     }
+});
+
+router.post('/register', async (req: Request, res: Response) => {
+    const newUser: Omit<UserInterface, 'tasks' | 'assignedTasks'> = {
+        email: req.body.email,
+        password: req.body.password,
+        name: req.body.name
+    };
+
+    try {
+        const user = await UserService.registrate(newUser);
+        return res.status(201).json({user: user});
+    } catch (err) {
+        if (err.name === 'ServerError') {
+            return res.status(500).json({error: err.message});
+        }
+        return res.status(400).json({error: err.message});
+    }
+
 });
 
 export default router;

@@ -1,14 +1,33 @@
 import UserModel from '../models/user.model';
 import CryptographyService from './cryptography.service';
-import { Secret, sign } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import dotenv from 'dotenv';
+import { UserInterface } from '../interfaces/user.interface';
 
 dotenv.config();
 
 class UserService {
     private JWT_SECRET = process.env.JWT_SECRET || "123";
 
-    async login(credentials: any) {
+    public async registrate(user: Omit<UserInterface, 'tasks' | 'assignedTasks'>): Promise<Omit<UserInterface, 'password'>> {
+        const { email, password } = user;
+        const isEmailExists = await UserModel.isEmailExists(email);
+        if (isEmailExists) {
+            throw new Error('This email is already exist in the system.');
+        }
+        try {
+            const hashedPassword = await CryptographyService.hashPassword(password);
+            user.password = hashedPassword;
+        } catch (err) {
+            throw new Error('Error while hashing password.');
+        }
+        const newUser = await UserModel.create(user);
+        const userPasswordRemoved = newUser.toObject();
+        delete userPasswordRemoved.password;
+        return userPasswordRemoved;
+    }
+
+    public async login(credentials: Pick<UserInterface, 'email' | 'password'>): Promise<{ token: string, user: Omit<UserInterface, 'password'> }> {
         const { email, password } = credentials;
         const user = await UserModel.findByEmail(email);
         if (!user) {
@@ -25,7 +44,7 @@ class UserService {
             user_id: user._id,
             email: user.email,
         };
-        const jwtToken = sign(payload, this.JWT_SECRET);
+        const jwtToken = jwt.sign(payload, this.JWT_SECRET);
         const userPasswordRemoved = user.toObject();
         delete userPasswordRemoved.password;
         return { token: jwtToken, user: userPasswordRemoved };

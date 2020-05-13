@@ -2,7 +2,7 @@ import bcrypt from 'bcrypt';
 import ServerError from '../errors/server.error';
 
 class CryptographyService {
-    async hashPassword(password: string): Promise<string> {
+    public async hashPassword(password: string): Promise<string> {
         try {
             const salt = await bcrypt.genSalt(10);
             const hash = await bcrypt.hash(password, salt);
@@ -12,7 +12,7 @@ class CryptographyService {
         }
     }
 
-    async comparePasswords(password: string, userPassword: string): Promise<boolean> {
+    public async comparePasswords(password: string, userPassword: string): Promise<boolean> {
         return bcrypt.compare(password, userPassword).then((result) => {
             return result;
         });

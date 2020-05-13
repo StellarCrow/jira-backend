@@ -1,4 +1,3 @@
-import { UserDocument } from '../models/schemas/user.schema';
 import { UserInterface } from './user.interface';
 
 export interface TaskInterface {

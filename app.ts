@@ -1,5 +1,6 @@
 import express, { Request, Response, Application } from 'express';
 import mongoose from 'mongoose';
+import cors from 'cors';
 import authRouter from './src/routes/api/auth.route';
 import dotenv from 'dotenv';
 
@@ -12,6 +13,9 @@ mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
+
+app.use(cors());
+app.use(express.json());
 
 app.use('/api', authRouter);
 

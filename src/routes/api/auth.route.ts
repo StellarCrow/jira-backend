@@ -12,7 +12,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
     try {
         const { token, user } = await UserService.login(userInfo);
-        return res.status(200).json({ user: user, token: token });
+        return res.status(200).json({ user, token });
     } catch (err) {
         if (err.name === 'ServerError') {
             return res.status(500).json({ error: err.message });
@@ -30,12 +30,12 @@ router.post('/register', async (req: Request, res: Response) => {
 
     try {
         const user = await UserService.registrate(newUser);
-        return res.status(201).json({user: user});
+        return res.status(201).json({ user });
     } catch (err) {
         if (err.name === 'ServerError') {
-            return res.status(500).json({error: err.message});
+            return res.status(500).json({ error: err.message });
         }
-        return res.status(400).json({error: err.message});
+        return res.status(400).json({ error: err.message });
     }
 
 });

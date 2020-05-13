@@ -1,6 +1,6 @@
 class ServerError extends Error {
-    constructor(args: string) {
-        super(args);
+    constructor(message: string) {
+        super(message);
         this.name = 'ServerError';
     }
 }

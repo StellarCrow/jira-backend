@@ -7,8 +7,7 @@ class UserModel {
     public async create(user: Omit<UserInterface, 'tasks' | 'assignedTasks'>): Promise<UserDocument> {
         const {email, password, name} = user;
         try {
-            const newUser = await User.create({email, password, name});
-            return newUser;
+            return await User.create({email, password, name});
         } catch (err) {
             throw new ServerError(err);
         }
@@ -16,8 +15,7 @@ class UserModel {
 
     public async findByEmail(email: string): Promise<UserDocument | null> {
         try {
-            const user = User.findOne({ email });
-            return user;
+            return await User.findOne({ email });
         } catch (err) {
             throw new ServerError(err.message);
         }
@@ -25,8 +23,7 @@ class UserModel {
 
     public async isEmailExists(email: string): Promise<UserDocument | null> {
         try {
-            const user = await User.findOne({ email: email });
-            return user;
+            return await User.findOne({ email: email });
         } catch (err) {
             throw new ServerError(err.message);
         }

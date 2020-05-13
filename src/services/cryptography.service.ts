@@ -13,7 +13,7 @@ class CryptographyService {
     }
 
     public async comparePasswords(password: string, userPassword: string): Promise<boolean> {
-        return bcrypt.compare(password, userPassword).then((result) => {
+        return await bcrypt.compare(password, userPassword).then((result) => {
             return result;
         });
     }

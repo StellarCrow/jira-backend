@@ -7,7 +7,8 @@ import dotenv from 'dotenv';
 dotenv.config();
 const app: Application = express();
 const PORT = process.env.PORT || 3000;
-const MONGO_URI = process.env.MONGOLAB_URI || 'mongodb://localhost:27017/jira';
+const defaultMongoUri = 'mongodb://localhost:27017/jira';
+const MONGO_URI = process.env.MONGOLAB_URI || defaultMongoUri;
 
 mongoose.connect(MONGO_URI, {
     useNewUrlParser: true,

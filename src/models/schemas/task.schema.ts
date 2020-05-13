@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { UserDocument } from './user.schema';
+import { taskPriorityEnum, taskResolutionEnum, taskStatusEnum, taskTypeEnum } from '../../utils/task.constants';
 
 export type TaskDocument = mongoose.Document & {
     title: string,
@@ -40,22 +41,22 @@ const taskSchema = new mongoose.Schema({
     },
     type: {
         type: String,
-        enum: [],
+        enum: taskTypeEnum,
         required: true
     },
     priority: {
         type: String,
-        enum: [],
+        enum: taskPriorityEnum,
         required: true
     },
     status: {
         type: String,
-        enum: [],
+        enum: taskStatusEnum,
         required: true
     },
     resolution: {
         type: String,
-        enum: [],
+        enum: taskResolutionEnum,
         required: true
     },
     labels: [String]

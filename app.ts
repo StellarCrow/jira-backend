@@ -1,8 +1,10 @@
 import express, { Request, Response, Application } from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
-import authRouter from './src/routes/api/auth.route';
 import dotenv from 'dotenv';
+
+import authRouter from './src/routes/api/auth.route';
+import checkAuthorization from './src/routes/middleware/auth.middleware';
 
 dotenv.config();
 const app: Application = express();
@@ -18,7 +20,9 @@ mongoose.connect(MONGO_URI, {
 app.use(cors());
 app.use(express.json());
 
+
 app.use('/api', authRouter);
+app.use(checkAuthorization);
 
 app.get('/', function (req: Request, res: Response) {
     res.send('Hello World!');

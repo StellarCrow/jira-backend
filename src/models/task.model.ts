@@ -16,7 +16,19 @@ class TaskModel {
             const createdTask = await Task.create(task);
             const update = { $push: { tasks: createdTask._id } };
             await User.findOneAndUpdate({ _id: createdTask.reporter }, update);
+            if (newTask.assignee) {
+                this.assignTask(createdTask._id, createdTask.assignee);
+            }
             return createdTask;
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
+    public async assignTask(taskId: any, userId: any): Promise<void> {
+        try {
+            const update = { $push: { assignedTasks: taskId } };
+            await User.findOneAndUpdate({ _id: userId }, update);
         } catch (err) {
             throw new ServerError(err.message);
         }

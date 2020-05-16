@@ -1,4 +1,4 @@
-import { Task } from './schemas/task.schema';
+import { Task, TaskDocument } from './schemas/task.schema';
 import { User } from './schemas/user.schema';
 import { TaskInterface } from '../interfaces/task.interface';
 import { taskResolution, taskStatus } from '../utils/task.constants';
@@ -7,7 +7,7 @@ import ServerError from '../errors/server.error';
 class TaskModel {
     private cipher = "JST";
 
-    public async create(newTask: Partial<TaskInterface>): Promise<TaskInterface> {
+    public async create(newTask: Partial<TaskInterface>): Promise<TaskDocument> {
         const title = await this.generateTitle();
         const resolution = taskResolution.UNRESOLVED;
         const status = taskStatus.TODO;
@@ -17,7 +17,7 @@ class TaskModel {
             const update = { $push: { tasks: createdTask._id } };
             await User.findOneAndUpdate({ _id: createdTask.reporter }, update);
             if (newTask.assignee) {
-                this.assignTask(createdTask._id, createdTask.assignee);
+                this.assignTask(createdTask._id, createdTask.assignee.toString());
             }
             return createdTask;
         } catch (err) {
@@ -25,7 +25,7 @@ class TaskModel {
         }
     }
 
-    public async assignTask(taskId: any, userId: any): Promise<void> {
+    public async assignTask(taskId: string, userId: string): Promise<void> {
         try {
             const update = { $push: { assignedTasks: taskId } };
             await User.findOneAndUpdate({ _id: userId }, update);

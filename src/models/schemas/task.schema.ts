@@ -1,13 +1,13 @@
 import mongoose from 'mongoose';
-import { UserDocument } from './user.schema';
 import { taskPriorityEnum, taskResolutionEnum, taskStatusEnum, taskTypeEnum } from '../../utils/task.constants';
+import { UserDocument } from './user.schema';
 
 export type TaskDocument = mongoose.Document & {
     title: string,
     summary: string,
     description: string,
-    reporter: UserDocument,
-    assignee: UserDocument,
+    reporter: string | UserDocument,
+    assignee: string | UserDocument,
     created: Date,
     updated: Date,
     deadline: Date,

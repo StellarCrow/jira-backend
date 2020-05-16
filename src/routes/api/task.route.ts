@@ -18,7 +18,7 @@ router.post('/task', async (req: Request, res: Response) => {
         resolution: req.body.resolution,
     };
 
-    if (assignee) {
+    if (assignee !== 'unassigned') {
         newTask.assignee = assignee;
     }
 

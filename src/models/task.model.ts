@@ -2,6 +2,7 @@ import { Task } from './schemas/task.schema';
 import { User } from './schemas/user.schema';
 import { TaskInterface } from '../interfaces/task.interface';
 import { taskResolution, taskStatus } from '../utils/task.constants';
+import ServerError from '../errors/server.error';
 
 class TaskModel {
     private cipher = "JST";
@@ -11,15 +12,24 @@ class TaskModel {
         const resolution = taskResolution.UNRESOLVED;
         const status = taskStatus.TODO;
         const task = { ...newTask, title, resolution, status };
-        const createdTask = await Task.create(task);
-        const update = { $push: { tasks: createdTask._id } };
-        await User.findOneAndUpdate({ _id: createdTask.reporter }, update);
-        return createdTask;
+        try {
+            const createdTask = await Task.create(task);
+            const update = { $push: { tasks: createdTask._id } };
+            await User.findOneAndUpdate({ _id: createdTask.reporter }, update);
+            return createdTask;
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
     }
 
     private async generateTitle(): Promise<string> {
-        let count = await Task.countDocuments();
-        return `${this.cipher}-${++count}`;
+        try {
+            let count = await Task.countDocuments();
+            return `${this.cipher}-${++count}`;
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+
     }
 }
 

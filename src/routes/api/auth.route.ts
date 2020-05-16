@@ -1,5 +1,5 @@
 import express, { Request, Response } from 'express';
-import UserService from '../../services/user.service';
+import AuthService from '../../services/auth.service';
 import { UserInterface } from '../../interfaces/user.interface';
 
 const router = express.Router();
@@ -11,7 +11,7 @@ router.post('/login', async (req: Request, res: Response) => {
     };
 
     try {
-        const { token, user } = await UserService.login(userInfo);
+        const { token, user } = await AuthService.login(userInfo);
         return res.status(200).json({ user, token });
     } catch (err) {
         if (err.name === 'ServerError') {
@@ -29,7 +29,7 @@ router.post('/register', async (req: Request, res: Response) => {
     };
 
     try {
-        const user = await UserService.registrate(newUser);
+        const user = await AuthService.registrate(newUser);
         return res.status(201).json({ user });
     } catch (err) {
         if (err.name === 'ServerError') {

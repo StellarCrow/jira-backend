@@ -5,6 +5,7 @@ import dotenv from 'dotenv';
 
 import authRouter from './src/routes/api/auth.route';
 import taskRouter from './src/routes/api/task.route';
+import userRouter from './src/routes/api/user.route';
 import checkAuthorization from './src/routes/middleware/auth.middleware';
 
 dotenv.config();
@@ -25,6 +26,7 @@ app.use(express.json());
 app.use('/api', authRouter);
 app.use(checkAuthorization);
 app.use('/api', taskRouter);
+app.use('/api', userRouter);
 
 app.get('/', function (req: Request, res: Response) {
     res.send('Hello World!');

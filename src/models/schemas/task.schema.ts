@@ -4,6 +4,7 @@ import { taskPriorityEnum, taskResolutionEnum, taskStatusEnum, taskTypeEnum } fr
 
 export type TaskDocument = mongoose.Document & {
     title: string,
+    summary: string,
     description: string,
     reporter: UserDocument,
     assignee: UserDocument,
@@ -21,6 +22,10 @@ const taskSchema = new mongoose.Schema({
     title: {
         type: String,
         required: true,
+    },
+    summary: {
+        type: String,
+        required: true
     },
     description: String,
     reporter: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },

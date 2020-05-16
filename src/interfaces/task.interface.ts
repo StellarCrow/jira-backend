@@ -1,7 +1,9 @@
 import { UserInterface } from './user.interface';
 
 export interface TaskInterface {
+    _id: string,
     title: string,
+    summary: string,
     description: string,
     reporter: UserInterface,
     assignee: UserInterface,

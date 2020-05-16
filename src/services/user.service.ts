@@ -9,7 +9,7 @@ dotenv.config();
 class UserService {
     private JWT_SECRET = process.env.JWT_SECRET || "123";
 
-    public async registrate(user: Omit<UserInterface, 'tasks' | 'assignedTasks'>): Promise<Omit<UserInterface, 'password'>> {
+    public async registrate(user: Omit<UserInterface, 'tasks' | 'assignedTasks' | '_id'>): Promise<Omit<UserInterface, 'password'>> {
         const { email, password } = user;
         const isEmailExists = await UserModel.isEmailExists(email);
         if (isEmailExists) {
@@ -41,8 +41,9 @@ class UserService {
             throw new Error('Wrong password');
         }
         const payload = {
-            user_id: user._id,
+            id: user._id,
             email: user.email,
+            name: user.name,
         };
         const jwtToken = jwt.sign(payload, this.JWT_SECRET);
         const userPasswordRemoved = user.toObject();

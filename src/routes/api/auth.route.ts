@@ -22,7 +22,7 @@ router.post('/login', async (req: Request, res: Response) => {
 });
 
 router.post('/register', async (req: Request, res: Response) => {
-    const newUser: Omit<UserInterface, 'tasks' | 'assignedTasks'> = {
+    const newUser: Omit<UserInterface, 'tasks' | 'assignedTasks' | '_id'> = {
         email: req.body.email,
         password: req.body.password,
         name: req.body.name

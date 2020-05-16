@@ -4,7 +4,7 @@ import { UserInterface } from '../interfaces/user.interface';
 
 class UserModel {
 
-    public async create(user: Omit<UserInterface, 'tasks' | 'assignedTasks'>): Promise<UserDocument> {
+    public async create(user: Omit<UserInterface, 'tasks' | 'assignedTasks' | '_id'>): Promise<UserDocument> {
         const {email, password, name} = user;
         try {
             return await User.create({email, password, name});

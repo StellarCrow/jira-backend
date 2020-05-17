@@ -5,6 +5,10 @@ class UserService {
     public async getUsers(): Promise<UserInterface[]> {
         return await UserModel.getAllUsers();
     }
+
+    public async getUser(id: string): Promise<UserInterface | null> {
+        return await UserModel.getUser(id);
+    }
 }
 
 export default new UserService();

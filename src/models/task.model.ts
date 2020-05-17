@@ -34,6 +34,34 @@ class TaskModel {
         }
     }
 
+    public async changeStatus(id: string, status: string): Promise<string | null> {
+        try {
+            const task = await Task.findOneAndUpdate({ _id: id }, { status: status }, { new: true });
+            return task && task.status;
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
+    public async getAll(): Promise<TaskDocument[]> {
+        try {
+            return Task.find({})
+                .populate('reporter', 'name _id')
+                .populate('assignee', 'name _id')
+                .exec();
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
+    public async getById(id: string): Promise<TaskDocument | null> {
+        try {
+            return await Task.findById(id);
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
     private async generateTitle(): Promise<string> {
         try {
             let count = await Task.countDocuments();

@@ -11,6 +11,10 @@ class TaskService {
         return await TaskModel.getAll();
     }
 
+    public async getTask(id: string): Promise<TaskInterface | null> {
+        return await TaskModel.getById(id);
+    }
+
     public async changeStatus(id: string, status: string): Promise<string | null> {
         return await TaskModel.changeStatus(id, status);
     }

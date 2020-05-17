@@ -54,6 +54,14 @@ class TaskModel {
         }
     }
 
+    public async getById(id: string): Promise<TaskDocument | null> {
+        try {
+            return await Task.findById(id);
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
     private async generateTitle(): Promise<string> {
         try {
             let count = await Task.countDocuments();

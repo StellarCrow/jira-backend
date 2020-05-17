@@ -4,7 +4,7 @@ import { UserInterface } from '../interfaces/user.interface';
 
 class UserModel {
 
-    public async getAllUsers(): Promise<UserInterface[]> {
+    public async getAllUsers(): Promise<UserDocument[]> {
         try {
             return User.find({}).select('-password');
         } catch (err) {
@@ -12,7 +12,7 @@ class UserModel {
         }
     }
 
-    public async getUser(id: string): Promise<UserInterface | null> {
+    public async getUser(id: string): Promise<UserDocument | null> {
         try {
             return User.findById(id).select('-password');
         } catch (err) {

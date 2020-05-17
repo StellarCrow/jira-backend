@@ -42,16 +42,30 @@ router.get('/task', async (req: Request, res: Response) => {
     }
 });
 
+router.get('/task/:id', async (req: Request, res: Response) => {
+    const id = req.params.id;
+    try {
+        const task = await TaskService.getTask(id);
+        if (task) {
+            return res.status(200).json({ task })
+        } else {
+            return res.status(404).json({ task });
+        }
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+});
+
 router.patch('/task/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
     const newStatus = req.body.status;
 
     try {
         const status = await TaskService.changeStatus(id, newStatus);
-        if(status) {
-            return res.status(200).json({status})
+        if (status) {
+            return res.status(200).json({ status })
         } else {
-            return res.status(404).json({ status});
+            return res.status(404).json({ status });
         }
 
     } catch (err) {

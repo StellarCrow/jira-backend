@@ -4,10 +4,26 @@ import { UserInterface } from '../interfaces/user.interface';
 
 class UserModel {
 
-    public async create(user: Omit<UserInterface, 'tasks' | 'assignedTasks'>): Promise<UserDocument> {
-        const {email, password, name} = user;
+    public async getAllUsers(): Promise<UserDocument[]> {
         try {
-            return await User.create({email, password, name});
+            return User.find({}).select('-password');
+        } catch (err) {
+            throw new ServerError(err);
+        }
+    }
+
+    public async getUser(id: string): Promise<UserDocument | null> {
+        try {
+            return User.findById(id).select('-password');
+        } catch (err) {
+            throw new ServerError(err);
+        }
+    }
+
+    public async create(user: Omit<UserInterface, 'tasks' | 'assignedTasks' | '_id'>): Promise<UserDocument> {
+        const { email, password, name } = user;
+        try {
+            return await User.create({ email, password, name });
         } catch (err) {
             throw new ServerError(err);
         }

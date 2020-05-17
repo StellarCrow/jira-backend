@@ -5,8 +5,8 @@ export type UserDocument = mongoose.Document & {
     email: string,
     password: string,
     name: string,
-    tasks: TaskDocument[],
-    assignedTasks: TaskDocument[]
+    tasks: string[] | TaskDocument[],
+    assignedTasks: string[] | TaskDocument[]
 };
 
 const userSchema = new mongoose.Schema({

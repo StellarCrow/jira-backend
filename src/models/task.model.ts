@@ -34,6 +34,15 @@ class TaskModel {
         }
     }
 
+    public async changeStatus(id: string, status: string): Promise<string | null> {
+        try {
+            const task = await Task.findOneAndUpdate({ _id: id }, { status: status }, { new: true });
+            return task && task.status;
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
     public async getAll(): Promise<TaskDocument[]> {
         try {
             return Task.find({})

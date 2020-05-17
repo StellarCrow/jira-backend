@@ -34,6 +34,17 @@ class TaskModel {
         }
     }
 
+    public async getAll(): Promise<TaskDocument[]> {
+        try {
+            return Task.find({})
+                .populate('reporter', 'name _id')
+                .populate('assignee', 'name _id')
+                .exec();
+        } catch (err) {
+            throw new ServerError(err.message);
+        }
+    }
+
     private async generateTitle(): Promise<string> {
         try {
             let count = await Task.countDocuments();

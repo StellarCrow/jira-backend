@@ -31,8 +31,15 @@ router.post('/task', async (req: Request, res: Response) => {
         }
         return res.status(400).json({ message: err.message });
     }
+});
 
-
+router.get('/task', async (req: Request, res: Response) => {
+    try {
+        const tasks = await TaskService.getAllTasks();
+        return res.status(200).json({ tasks })
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
 });
 
 export default router;

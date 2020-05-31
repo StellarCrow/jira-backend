@@ -58,19 +58,26 @@ router.get('/task/:id', async (req: Request, res: Response) => {
 
 router.patch('/task/:id', async (req: Request, res: Response) => {
     const id = req.params.id;
-    const newStatus = req.body.status;
+    const update = req.body.update;
 
     try {
-        const status = await TaskService.changeStatus(id, newStatus);
-        if (status) {
-            return res.status(200).json({ status })
-        } else {
-            return res.status(404).json({ status });
-        }
-
+        await TaskService.updateField(id, update);
+        return res.status(200).json({ message: "updated" });
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
 });
+
+router.patch('/task/:id/assign', async (req: Request, res: Response) => {
+    const id = req.params.id;
+    const user = req.body.update && req.body.update.assignee === 'unassigned' ? null : req.body.update.assignee;
+
+    try {
+        await TaskService.assignTask(id, user);
+        return res.status(200).json({ message: "updated" });
+    } catch (err) {
+        return res.status(500).json({ message: err.message });
+    }
+})
 
 export default router;

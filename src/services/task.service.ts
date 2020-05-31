@@ -15,8 +15,12 @@ class TaskService {
         return await TaskModel.getById(id);
     }
 
-    public async changeStatus(id: string, status: string): Promise<string | null> {
-        return await TaskModel.changeStatus(id, status);
+    public async updateField(id: string, update: Partial<TaskInterface>): Promise<void> {
+        await TaskModel.updateField(id, update);
+    }
+
+    public async assignTask(taskId: string, userId: string): Promise<void> {
+        await TaskModel.assignTask(taskId, userId);
     }
 }
 

@@ -15,7 +15,7 @@ class TaskService {
         return await TaskModel.getById(id);
     }
 
-    public async updateField(id: string, update: object): Promise<void> {
+    public async updateField(id: string, update: Partial<TaskInterface>): Promise<void> {
         await TaskModel.updateField(id, update);
     }
 

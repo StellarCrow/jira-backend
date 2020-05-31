@@ -32,12 +32,12 @@ const taskSchema = new mongoose.Schema({
     assignee: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
     created: {
         type: Date,
-        default: Date.now(),
+        default: new Date(),
         required: true,
     },
     updated: {
         type: Date,
-        default: Date.now(),
+        default: new Date(),
         required: true,
     },
     deadline: {

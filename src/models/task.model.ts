@@ -55,7 +55,7 @@ class TaskModel {
         }
     }
 
-    public async updateField(id: string, update: object): Promise<void> {
+    public async updateField(id: string, update: Partial<TaskInterface>): Promise<void> {
         try {
             await Task.findOneAndUpdate({ _id: id }, update, { new: true });
         } catch (err) {

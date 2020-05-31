@@ -62,23 +62,19 @@ router.patch('/task/:id', async (req: Request, res: Response) => {
 
     try {
         await TaskService.updateField(id, update);
-        return res.status(200).json({ message: "updated"});
+        return res.status(200).json({ message: "updated" });
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
 });
 
-router.patch('/task/:id/assign', async(req: Request, res: Response) => {
+router.patch('/task/:id/assign', async (req: Request, res: Response) => {
     const id = req.params.id;
-    let user = req.body.update.assignee;
-
-    if(user === 'unassigned') {
-        user = null;
-    }
+    const user = req.body.update && req.body.update.assignee === 'unassigned' ? null : req.body.update.assignee;
 
     try {
         await TaskService.assignTask(id, user);
-        return res.status(200).json({ message: "updated"});
+        return res.status(200).json({ message: "updated" });
     } catch (err) {
         return res.status(500).json({ message: err.message });
     }
